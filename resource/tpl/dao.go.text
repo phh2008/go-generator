@@ -1,0 +1,12 @@
+package {{.gen.DaoPkg | pkg}}
+
+import (
+	"github.com/google/wire"
+	"gorm.io/gorm"
+)
+
+var {{.goName}}Set = wire.NewSet(wire.Struct(new({{.goName}}{{.gen.DaoSuffix}}), "*"))
+
+type {{.goName}}{{.gen.DaoSuffix}} struct {
+	Db *gorm.DB
+}

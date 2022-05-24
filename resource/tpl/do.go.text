@@ -1,0 +1,16 @@
+package {{.gen.DoPkg | pkg}}
+
+{{if .hasTime}}import "time"{{end}}
+{{if .hasDecimal}}import "github.com/shopspring/decimal"{{end}}
+
+type {{.goName}}{{.gen.DoSuffix}} struct {
+{{- range $i,$v := .columns -}}
+    {{- if and (ne $v.Key `PRI`) (NotIn $v.Name `要排除的字段1,要排除的字段2` `,`)}}
+    {{FmtLen $v.GoName $.maxColumnLength}} {{$v.GoType}}
+    {{- end -}}
+{{- end}}
+}
+
+func ({{.goName}}{{.gen.DoSuffix}}) TableName() string {
+	return "{{.table.Name}}"
+}

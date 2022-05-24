@@ -1,0 +1,12 @@
+package {{.gen.ServicePkg | pkg}}
+
+import (
+	"{{.gen.DaoPkg}}"
+	"github.com/google/wire"
+)
+
+var {{.goName}}Set = wire.NewSet(wire.Struct(new({{.goName}}{{.gen.ServiceSuffix}}), "*"))
+
+type {{.goName}}{{.gen.ServiceSuffix}} struct {
+	{{.goName}}{{.gen.DaoSuffix}} *{{.gen.DaoPkg | pkg}}.{{.goName}}{{.gen.DaoSuffix}}
+}
