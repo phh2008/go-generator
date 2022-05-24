@@ -4,22 +4,22 @@
 
 + 模版函数
 
-    |名称| 参数类型 | 说明|  
-    | :---- | :---- | :---- |  
-    | FirstToLower |  string | 首字母小写 |  
-    | FirstToUpper |  string | 首字母大写 |   
-    | ClassName |  string | 从全类名提取类名 |   
-    | ToUpper |  string | 转大写 |   
+    |名称| 参数类型 | 说明|
+    | :---- | :---- | :---- |
+    | FirstToLower |  string | 首字母小写 |
+    | FirstToUpper |  string | 首字母大写 |
+    | ClassName |  string | 从全类名提取类名 |
+    | ToUpper |  string | 转大写 |
     | ToLower |  string | 转小写 |   
     | Add |  int,int | 加法：return a+b |   
     | Minus |  int,int | 减法：return a-b |   
-    | In |  src string,des string,sep string | 是否包括字符串，如：src=state,des=`sn,state,valid`,sep=`,` 分隔des后，src是在des中的|   
-    | NotIn |  src string,des string,sep string | 是否不包括字符串，与In相反 |   
+    | In |  src string,des string,sep string | 是否包括字符串，如：src=state,des=`sn,state`,sep=`,` 分隔des后，src是在des中的|  
+    | NotIn |  src string,des string,sep string | 是否不包括字符串，与In相反 |
 
 + .根属性(在模版以.attrName使用)
 
     | 属性名                 | 类型 | 说明                                                               |
----------------------| :---- |:-----------------------------------------------------------------| :---- |
+    | :---- |:-----------------------------------------------------------------| :---- |
     | date                |  string | 日期(yyyy-MM-dd)，比如用于@date注释                                       | 
     | hasServiceInterface |  bool | 是否生成service接口，与.gen中属性一样，只是类型不一样                                 | 
     | hasTime             |  bool | 是否有 go 中的 Time 类型                                                  | 
@@ -31,8 +31,7 @@
     | hasModule           |  bool | 是否有模块名                                                           | 
     | mod                 |  string | 模块名称                                                             |
     | goName              |  string | 表格对应的 go 名称(去模块名并下划线转驼峰且首字母大写)如：mem_user_favorite对应 UserFavorite | 
-    | serialVersionUID    |  int | 序列号ID                                                            | 
-    | --------            | --------- | ------------------------                                         |   
+    | serialVersionUID    |  int | 序列号ID                                                            |  
     | table               |  对象 | 数据表信息                                                            | 
     | columns             | 集合 | 数据表的列信息集合                                                        | 
     | gen                 |  对象 | 通用的模版设置，如下方的.gen变量说明                                             | 
@@ -53,16 +52,16 @@
     
 + .table 变量属性(在模版中以.table.AttrName使用)
     
-    |属性名| 类型 | 说明|  
-    | :---- | :---- | :---- | 
-    | Name |  string | 数据表名 | 
-    | Comment |  string | 数据表的注释 | 
-    | CreateTime |  string | 数据表的创建时间 | 
+    |属性名|类型| 说明       | 
+    |:-------|:---------| :---- |
+    | Name | string | 数据表名     |
+    | Comment | string | 数据表的注释   |
+    | CreateTime | string | 数据表的创建时间 |
 
 + .columns 变量属性(在模版中以.columns使用)
     
     | 属性名      | 类型 | 说明|  
-----------| :---- | :---- | :---- | 
+    | :---- | :---- | :---- | 
     | Name     |  string | 表字段名 | 
     | DataType |  string | 字段数据库类型(小写) | 
     | Comment  |  string | 注释 | 
