@@ -68,3 +68,5 @@ fabric.properties
 *.out
 *.zip
 mybatis_tmpl/
+go_code_tmpl/
+go.sum

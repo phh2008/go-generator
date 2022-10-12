@@ -3,6 +3,7 @@ package fileutil
 import (
 	"archive/zip"
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 )
@@ -12,7 +13,7 @@ type FileInfo struct {
 	Path string
 }
 
-//获取目录中的文件名称列表
+// 获取目录中的文件名称列表
 func GetFileNameList(root string) ([]string, error) {
 	var files []string
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
@@ -45,9 +46,9 @@ func GetFileInfoList(root string) ([]FileInfo, error) {
 	return files, nil
 }
 
-//压缩文件
-//files 文件数组，可以是不同dir下的文件或者文件夹
-//dest 压缩文件存放地址
+// 压缩文件
+// files 文件数组，可以是不同dir下的文件或者文件夹
+// dest 压缩文件存放地址
 func Compress(files []*os.File, outFile *os.File) error {
 	w := zip.NewWriter(outFile)
 	defer w.Close()
@@ -111,49 +112,26 @@ func compress(file *os.File, prefix string, zw *zip.Writer) error {
 func Zip(source string, zipFile *os.File) error {
 	archive := zip.NewWriter(zipFile)
 	defer archive.Close()
-	/*info, err := os.Stat(source)
-	if err != nil {
+	var filePathList []string
+	err := filepath.Walk(source, func(path string, info fs.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+		filePathList = append(filePathList, path)
 		return nil
-	}
-	var baseDir string
-	if info.IsDir() {
-		baseDir = filepath.Base(source)
-	}*/
-	err := filepath.Walk(source, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		header, err := zip.FileInfoHeader(info)
-		if err != nil {
-			return err
-		}
-		/*if baseDir != "" {
-			header.Name = filepath.Join(baseDir, strings.TrimPrefix(path, source))
-		}*/
-		if path == source {
-			return nil
-		}
-		header.Name = path
-		if info.IsDir() {
-			header.Name += "/"
-		} else {
-			header.Method = zip.Deflate
-		}
-		writer, err := archive.CreateHeader(header)
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			return nil
-		}
-		file, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-		_, err = io.Copy(writer, file)
-		return err
 	})
+	if err != nil {
+		return err
+	}
+	for _, item := range filePathList {
+		file, err := os.Open(item)
+		if err != nil {
+			return err
+		}
+		w, err := archive.Create(item)
+		_, err = io.Copy(w, file)
+		file.Close()
+	}
 	return err
 }
 
