@@ -6,7 +6,7 @@ package {{.gen.DoPkg | pkg}}
 type {{.goName}}{{.gen.DoSuffix}} struct {
 {{- range $i,$v := .columns -}}
     {{- if and (ne $v.Key `PRI`) (NotIn $v.Name `要排除的字段1,要排除的字段2` `,`)}}
-    {{FmtLen $v.GoName $.maxColumnLength}} {{$v.GoType}}
+    {{FmtLen $v.GoName $.maxColumnLength}} {{$v.GoType}} // {{$v.Comment}}
     {{- end -}}
 {{- end}}
 }
